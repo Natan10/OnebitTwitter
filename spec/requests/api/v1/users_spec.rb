@@ -38,7 +38,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     end
  
     context 'when user dont exist' do
-      let(:user_id) { -1 }
+      let(:user_id) { 100 }
  
       before { get "/api/v1/users/#{user_id}" }
  
@@ -122,7 +122,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
  
       context 'User dont exist' do
         let(:user) { create(:user) }
-        let(:user_id) { -1 }
+        let(:user_id) { 100 }
   
         before { delete "/api/v1/users/#{user_id}", headers: header_with_authentication(user) }
   
@@ -237,7 +237,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     end
  
     context 'User dont exist' do
-      let(:user_id) { -1 }
+      let(:user_id) { 100 }
  
       before { get "/api/v1/users/#{user_id}/following" }
  
@@ -275,7 +275,7 @@ RSpec.describe 'Api::V1::Users', type: :request do
     end
  
     context 'User dont exist' do
-      let(:user_id) { -1 }
+      let(:user_id) { 100 }
  
       before { get "/api/v1/users/#{user_id}/followers" }
  
