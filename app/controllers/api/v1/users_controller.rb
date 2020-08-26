@@ -1,12 +1,76 @@
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+	
 module Api
   module V1
-    class UsersController < Api::V1::ApiController
+    class UsersController < Api::V1::ApiController #>
       before_action :authenticate_user, only: %i[current update destroy]
       before_action :set_user, only: %i[show destroy update following followers]
       load_and_authorize_resource except: %i[followers following create]
-
+ 
       before_action :set_page, only: %i[show followers following]
-
+ 
       def create
         user = User.new(user_params)
         if user.save
@@ -15,7 +79,7 @@ module Api
           render json: { errors: user.errors.full_messages }, status: :unprocessable_entity
         end
       end
-
+ 
       def update
         if @user.update(user_params)
           render json: @user
@@ -23,39 +87,39 @@ module Api
           render json: { errors: @user.errors.full_messages }, status: :unprocessable_entity
         end
       end
-
+ 
       def destroy
         @user.destroy
       end
-
+ 
       def current
         render json: current_user
       end
-
+ 
       def show
         render json: @user
       end
-
+ 
       def following
-        @following = @user.following_users.paginate(page: @page, per_page: 15)
+        @following = @user.following_users.paginate(page: @page)
         render json: @following
       end
-
+ 
       def followers
-        @followers = @user.followers_by_type('User').paginate(page: @page, per_page: 15)
+        @followers = @user.followers_by_type('User').paginate(page: @page)
         render json: @followers
       end
-
+ 
       private
-
+ 
       def user_params
-        params.require(:user).permit(:name, :email, :password, :password_confirmation)
+        params.require(:user).permit(:name, :email, :password, :password_confirmation, :photo)
       end
-
+ 
       def set_user
         @user = User.find(params[:id])
       end
-
+ 
       def set_page
         @page = params['page'] || 1
       end
